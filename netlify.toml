@@ -1,13 +1,4 @@
-# netlify.toml
-
-[build]
-  command = "npm run build"
-  publish = "build"
-
-[settings]
-  node_version = "14"
-
-[[headers]]
-  for = "/*"
-  [headers.values]
-    Access-Control-Allow-Origin = "*"
+[[redirects]]
+from="/*"
+to="/index.html"
+status=200
