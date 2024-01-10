@@ -8,6 +8,7 @@ const Billing = () => {
   const [price, setPrice] = useState('');
   const [billingItems, setBillingItems] = useState([]);
   const [editingItem, setEditingItem] = useState(null);
+  const [total, setTotal] = useState(0);
 
   const handleAddOrUpdateItem = (e) => {
     e.preventDefault();
@@ -20,7 +21,7 @@ const Billing = () => {
     if (editingItem) {
       const updatedItems = billingItems.map((item) =>
         item.id === editingItem.id
-          ? { ...item, itemName, quantity, price: parseFloat(price) }
+          ? { ...item, itemName, quantity: parseInt(quantity), price: parseFloat(price) }
           : item
       );
 
@@ -32,20 +33,21 @@ const Billing = () => {
         customerName,
         billingDate,
         itemName,
-        quantity,
+        quantity: parseInt(quantity),
         price: parseFloat(price),
       };
       setBillingItems([...billingItems, newItem]);
     }
 
     clearForm();
+    calculateTotal();
   };
 
   const handleEditItem = (item) => {
     setCustomerName(item.customerName);
     setBillingDate(item.billingDate);
     setItemName(item.itemName);
-    setQuantity(item.quantity);
+    setQuantity(item.quantity.toString());
     setPrice(item.price.toString());
     setEditingItem(item);
   };
@@ -53,6 +55,12 @@ const Billing = () => {
   const handleDeleteItem = (id) => {
     const updatedItems = billingItems.filter((item) => item.id !== id);
     setBillingItems(updatedItems);
+    calculateTotal();
+  };
+
+  const calculateTotal = () => {
+    const totalAmount = billingItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
+    setTotal(totalAmount.toFixed(2));
   };
 
   const clearForm = () => {
@@ -164,6 +172,11 @@ const Billing = () => {
                   </td>
                 </tr>
               ))}
+              <tr>
+                <td colSpan="4" className="text-end fw-bold">Total:</td>
+                <td>${total}</td>
+                <td></td>
+              </tr>
             </tbody>
           </table>
         </div>
