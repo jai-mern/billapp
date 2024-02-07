@@ -6,6 +6,8 @@ import Header from './components/Header';
 import Sidebar from './components/Sidebar';
 import Dashboard from './components/Dashboard';
 import Billing from './components/Billing';
+
+
 const App = () => {
   const appStyle = {
     backgroundColor: 'ultraviolet',
@@ -23,6 +25,7 @@ const App = () => {
               <Routes>
                 <Route path="/dashboard" element={<Dashboard />} />
                 <Route path="/billing" element={<Billing />} />
+              
                 {/* Add more routes as needed */}
               </Routes>
             </main>

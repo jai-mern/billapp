@@ -1,22 +1,26 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 const Header = () => {
   return (
     <header>
-      <h1 style={{backgroundColor : 'green' }}>Inventory Billing App</h1>
+      <h1 style={{ backgroundColor: 'green' }}>Inventory Billing App</h1>
 
       <nav>
         <ul>
-        <li><a href="/">Home</a></li>
-    <li><a href="/dashboard">Dashboard</a></li>
-    <li><a href="/billing">Billing</a></li>
-    
+          <li><Link to="/">Home</Link></li>
+          <li><Link to="/dashboard">Dashboard</Link></li>
+          <li><Link to="/billing">Billing</Link></li>
+          <li><Link to="/login">Login</Link></li>
+          <li><Link to="/signup">Sign Up</Link></li>
         </ul>
       </nav>
 
       <div className="user-info">
         <span style={{ color: 'red' }}>Welcome to jaihind</span>
         {/* Add more user-related information or actions */}
+        {/* Example: Logout button */}
+        {/* <button>Logout</button> */}
       </div>
 
       {/* Additional header content */}
@@ -28,3 +32,6 @@ const Header = () => {
 };
 
 export default Header;
+     {/* Add more user-related information or actions */}
+        {/* Example: Logout button */}
+        {/* <button>Logout</button> */}

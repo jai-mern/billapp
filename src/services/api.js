@@ -1,37 +1,41 @@
-import axios from 'axios';
+import React, { useState } from 'react';
+import { processPayment } from './api/payment'; // Import your payment processing API
 
-const API_BASE_URL = 'http://your-api-base-url'; // Replace with your actual API base URL
+const PaymentComponent = () => {
+  const [paymentData, setPaymentData] = useState({
+    cardNumber: '',
+    expirationDate: '',
+    cvv: '',
+    billingAddress: ''
+  });
+  const [paymentError, setPaymentError] = useState('');
 
-const api = axios.create({
-  baseURL: API_BASE_URL,
-  headers: {
-    'Content-Type': 'application/json',
-    // You can add more headers as needed
-  },
-});
+  const handlePayment = async () => {
+    try {
+      // Call the payment processing API
+      const response = await processPayment(paymentData);
+      console.log(response); // Handle success response
+    } catch (error) {
+      setPaymentError(error.message); // Handle error
+    }
+  };
 
-// Example of a function to make a GET request
-export const fetchUserData = async (userId) => {
-  try {
-    const response = await api.get(`/users/${userId}`);
-    return response.data;
-  } catch (error) {
-    console.error('Error fetching user data:', error);
-    throw error;
-  }
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setPaymentData({ ...paymentData, [name]: value });
+  };
+
+  return (
+    <div>
+      <h2>Payment Information</h2>
+      <input type="text" name="cardNumber" value={paymentData.cardNumber} onChange={handleInputChange} placeholder="Card Number" />
+      <input type="text" name="expirationDate" value={paymentData.expirationDate} onChange={handleInputChange} placeholder="Expiration Date" />
+      <input type="text" name="cvv" value={paymentData.cvv} onChange={handleInputChange} placeholder="CVV" />
+      <input type="text" name="billingAddress" value={paymentData.billingAddress} onChange={handleInputChange} placeholder="Billing Address" />
+      <button onClick={handlePayment}>Process Payment</button>
+      {paymentError && <p>{paymentError}</p>}
+    </div>
+  );
 };
 
-// Example of a function to make a POST request
-export const createUser = async (userData) => {
-  try {
-    const response = await api.post('/users', userData);
-    return response.data;
-  } catch (error) {
-    console.error('Error creating user:', error);
-    throw error;
-  }
-};
-
-// Add more functions for different API endpoints and requests as needed
-
-export default api;
+export default PaymentComponent;

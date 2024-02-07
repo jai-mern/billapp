@@ -10,8 +10,14 @@ function Login() {
     e.preventDefault();
 
     try {
+      // Basic validation for email and password
+      if (!email || !password) {
+        setError('Please enter both email and password.');
+        return;
+      }
+
       await auth.signInWithEmailAndPassword(email, password);
-      // You can redirect the user or perform other actions after successful login
+      // Redirect user or perform other actions after successful login
     } catch (error) {
       setError(error.message);
     }
@@ -20,20 +26,29 @@ function Login() {
   return (
     <div>
       <h2>Login</h2>
-      {error && <p>{error}</p>}
+      {error && <p style={{ color: 'red' }}>{error}</p>}
       <form onSubmit={handleLogin}>
-        <input
-          type="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          placeholder="Email"
-        />
-        <input
-          type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          placeholder="Password"
-        />
+        <div>
+          <label>Email:</label>
+          <input
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="Enter your email"
+            required
+          />
+        </div>
+        <div>
+          <label>Password:</label>
+          <input
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            placeholder="Enter your password"
+            required
+            minLength={6} // Minimum length of 6 characters
+          />
+        </div>
         <button type="submit">Log In</button>
       </form>
     </div>
